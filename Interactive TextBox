@@ -1,0 +1,50 @@
+    .486                                    ; create 32 bit code
+    .model flat, stdcall                    ; 32 bit memory model
+    option casemap :none                    ; case sensitive
+    
+	
+	;INCLUDE DIRECTORIES THAT TELL PROGRAM WHAT TO INCLUDE, MASM LIBRARY
+	include \masm32\include\windows.inc   
+    include \masm32\macros\macros.asm      
+	include \masm32\include\masm32.inc
+    include \masm32\include\gdi32.inc
+    include \masm32\include\user32.inc
+    include \masm32\include\kernel32.inc
+	
+	;LIBRARY FILES USED TO DEFINE FUNCTIONS 
+	includelib \masm32\lib\masm32.lib
+    includelib \masm32\lib\gdi32.lib
+    includelib \masm32\lib\user32.lib
+    includelib \masm32\lib\kernel32.lib
+
+show_text PROTO: DWORD		; DECLARING VARIBLES AND SIZE SPECIFIC TO THE SIZE OPF THE STRING ALLOWED 
+
+.code						; WHERE YOU START YOUR ACTUAL CODE 
+
+
+start: 
+call main					; CALL PROCEDURE DIRECTED TO MAIN 
+exit 
+
+
+
+main proc
+ 
+;ALLOWS USER TO INPUT SOMETHING
+LOCAL textbox:DWORD    ; DECLARED VARIABLE FOR "textbox" 
+mov textbox, input ("TYPE SOMETHING: ")
+invoke show_text, textbox 
+ret
+main endp 
+
+ ;THIS PORTION DISPLAYS THE USER INPUTED PRIOR 
+ show_text proc string:DWORD 
+
+ print chr$ ("THIS IS WHAT YOU TYPED: ",10,  "     " )
+ print string 
+ print chr$ ("     ", 10)
+ ret 
+ show_text endp  ;end of show text program 
+
+
+ end start
